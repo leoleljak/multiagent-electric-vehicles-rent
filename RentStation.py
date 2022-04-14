@@ -38,11 +38,21 @@ class RentStation(spade.agent.Agent):
             if msg and msg.metadata:
                 if msg.metadata["ontology"] == 'updateStationData':
                     self.agent.stations = msg.body.split(",")
+                if msg.metadata["ontology"] == 'reserveVehicle':
+                    vehicleName = msg.body
+                    await self.reserveVehicle(vehicleName, msg.sender)
+                if msg.metadata["ontology"] == 'collectVehicle':
+                    vehicleName = msg.body.split(",")[0]
+                    days = msg.body.split(",")[1]
+                    await self.collectVehicle(vehicleName, int(days), msg.sender)
+
             print("")
 
-        ### Print current state of vehicles 
+        ### Print current state of station
         ###
         def printCurrentState(self):
+            print("--------------")
+            print("Station earnings:", self.agent.totalEarnings, "€")
             print("Current stations: ", self.agent.stations)
             print("")
 
@@ -57,11 +67,43 @@ class RentStation(spade.agent.Agent):
             for bike in self.agent.bikes: 
                 bike.printProperties()
 
+        ### Reserve vehicle for customer
+        ###
+        async def reserveVehicle(self, vehicleName, sender):
+            for vehicle in self.agent.vehicles:
+                if vehicle.name == vehicleName:
+                    if not vehicle.isReserved:
+                        vehicle.isReserved = True
+                    break
+            reservationStation = str(self.agent.jid)
+
+            msg = Message(to=sender.localpart + "@" + sender.domain)
+            msg.set_metadata("performative", "inform")
+            msg.set_metadata("ontology", "vehicleReserved")
+            msg.body = reservationStation
+            await self.send(msg)
+
+        ### Customer collects vehicle
+        ###
+        async def collectVehicle(self, vehicleName, days, sender):
+            for vehicle in self.agent.vehicles:
+                if vehicle.name == vehicleName:
+                    self.agent.totalEarnings += days * vehicle.pricePerDay
+                    break
+
+            msg = Message(to=sender.localpart + "@" + sender.domain)
+            msg.set_metadata("performative", "inform")
+            msg.set_metadata("ontology", "vehicleCollected")
+            msg.body = str(self.agent.totalEarnings)
+            await self.send(msg)
+
     async def setup(self):
         print("Setting up rent station system...")
         self.stations = []
+        self.totalEarnings = 0
         self.cars = self.setupCars()
         self.bikes = self.setupBikes()
+        self.vehicles = self.cars + self.bikes
         mainBehaviour = self.MainBehaviour()
         template = Template()
         template.set_metadata("performative", "inform")
@@ -87,6 +129,7 @@ if __name__ == '__main__':
     parser.add_argument("-pwd", type=str, help="Password")
     args = parser.parse_args()
     a = RentStation(args.jid, args.pwd)
+    print("Current jid: ", a.jid)
     a.start()
     #a.web.start(hostname="127.0.0.1", port="10000")
     input("Press ENTER to exit.\n")
