@@ -2,6 +2,7 @@ import spade
 import time
 import datetime
 import argparse
+import asyncio
 from spade.message import Message
 from spade.template import Template
 
@@ -13,9 +14,13 @@ class Vehicle:
         self.chargeTime = chargeTime
         self.pricePerDay = pricePerDay
         self.isReserved = False
+        self.isCharging = False
 
     def printProperties(self): 
         print(self.name, "-", self.charge, "-", self.isReserved)
+    
+    def printChargeProperties(self): 
+        print(self.name, "-", self.charge, "-", self.isCharging)
 
 class RentStation(spade.agent.Agent):
     class MainBehaviour(spade.behaviour.CyclicBehaviour):
@@ -29,9 +34,10 @@ class RentStation(spade.agent.Agent):
             await self.send(msg)
 
         async def run(self):
+            print("------ CHARGING BEHAVIOUR ------")
             self.printCurrentState()
-            print("--------------")
             print("Waiting for requests by users ...")
+            print("")
             
             ### Handle requests
             msg = await self.receive(timeout=100)
@@ -45,13 +51,16 @@ class RentStation(spade.agent.Agent):
                     vehicleName = msg.body.split(",")[0]
                     days = msg.body.split(",")[1]
                     await self.collectVehicle(vehicleName, int(days), msg.sender)
+                if msg.metadata["ontology"] == 'returnVehicle':
+                    vehicleName = msg.body.split(",")[0]
+                    chargeLeft = msg.body.split(",")[1]
+                    await self.returnVehicle(vehicleName, chargeLeft, msg.sender)
 
             print("")
 
         ### Print current state of station
         ###
         def printCurrentState(self):
-            print("--------------")
             print("Station earnings:", self.agent.totalEarnings, "€")
             print("Current stations: ", self.agent.stations)
             print("")
@@ -72,7 +81,7 @@ class RentStation(spade.agent.Agent):
         async def reserveVehicle(self, vehicleName, sender):
             for vehicle in self.agent.vehicles:
                 if vehicle.name == vehicleName:
-                    if not vehicle.isReserved:
+                    if not vehicle.isReserved and not vehicle.isCharging:
                         vehicle.isReserved = True
                     break
             reservationStation = str(self.agent.jid)
@@ -97,6 +106,65 @@ class RentStation(spade.agent.Agent):
             msg.body = str(self.agent.totalEarnings)
             await self.send(msg)
 
+        ### Customer returns vehicle
+        ###
+        async def returnVehicle(self, vehicleName, chargeLeft, sender):
+            for vehicle in self.agent.vehicles:
+                if vehicle.name == vehicleName:
+                    vehicle.charge = int(float(chargeLeft))
+                    vehicle.isCharging = True
+                    vehicle.isReserved = False
+                    break
+
+            msg = Message(to=sender.localpart + "@" + sender.domain)
+            msg.set_metadata("performative", "inform")
+            msg.set_metadata("ontology", "vehicleReturned")
+            msg.body = vehicleName
+            await self.send(msg)
+
+    class ChargingBehaviour(spade.behaviour.PeriodicBehaviour):
+        async def on_start(self):
+            print("I'm starting charging behaviour")
+
+        async def run(self):
+            print("------ CHARGING BEHAVIOUR ------")
+            self.printCurrentState()
+            
+            needsCharging = False
+            ### Charge vehicles if needed
+            for vehicle in self.agent.vehicles:
+                if vehicle.charge < 100:
+                    needsCharging = True
+                    break
+                
+            if needsCharging:
+                await asyncio.sleep(20)
+                for vehicle in self.agent.vehicles:
+                    vehicle.charge = 100
+                    vehicle.isCharging = False
+                print("All vehicles charged")
+            else:
+                print("No need to charge vehicles")
+
+            print("")
+                
+        ### Print current charging state
+        ###
+        def printCurrentState(self):
+            print("")
+
+            print("Cars:")
+            print("Name - Charge - isCharging ")
+            for car in self.agent.cars:
+                car.printChargeProperties()
+
+            print("")
+            print("Bikes:")
+            print("Name - Charge - isCharging")
+            for bike in self.agent.bikes: 
+                bike.printChargeProperties()
+
+
     async def setup(self):
         print("Setting up rent station system...")
         self.stations = []
@@ -105,9 +173,11 @@ class RentStation(spade.agent.Agent):
         self.bikes = self.setupBikes()
         self.vehicles = self.cars + self.bikes
         mainBehaviour = self.MainBehaviour()
+        chargingBehaviour = self.ChargingBehaviour(period=15)
         template = Template()
         template.set_metadata("performative", "inform")
         self.add_behaviour(mainBehaviour, template)
+        self.add_behaviour(chargingBehaviour)
 
     def setupCars(self):
         return [

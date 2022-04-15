@@ -83,7 +83,6 @@ class UseVehicle(State):
         print("\n------ USE VEHICLE ------ ")
         print("I'm using vehicle")
         
-        vehicleRange = 0
         for vehicleF in self.agent.vehicles:
             if vehicleF.name == self.agent.vehicle:
                 vehicleChargeTime = vehicleF.chargeTime / 10
@@ -108,17 +107,31 @@ class ChargeVehicle(State):
         print("\n------ CHARGE VEHICLE ------ ")
         print("I'm charging vehicle")
         for vehicle in self.agent.vehicles:
-            if vehicle.name == vehicleName:
+            if vehicle.name ==  self.agent.vehicle:
                 vehicleChargeTime = vehicle.chargeTime / 10
-        time.sleep(fullRangeTime)
+        time.sleep(vehicleChargeTime)
+        self.agent.daysRemaining -= vehicleChargeTime
+        print("Vehicle charged to 100%")
+        print("Rent time remaining:", self.agent.daysRemaining)
         self.set_next_state(USE_VEHICLE)
 
 class ReturnVehicle(State):
     async def run(self):
         ## Tell station that you are giving it back and how much charge is left
         ##
+        print("\n------ RETURN VEHICLE ------ ")
         print("I'm returning vehicle")
-
+        msg = Message(to=self.agent.station)
+        msg.set_metadata("performative", "inform")
+        msg.set_metadata("ontology", "returnVehicle")
+        msg.body = ",".join([self.agent.vehicle, str(self.agent.daysRemaining)])
+        print("Returning vehicle", self.agent.vehicle, "with charge left:", self.agent.daysRemaining)
+        await self.send(msg)
+        
+        print("Waiting for response...")
+        msgReceived = await self.receive(timeout=10000)
+        print("Vehicle returned succesfully, heading home...")
+        time.sleep(2)
 
 class RentUser(Agent):
     async def setup(self):
@@ -170,7 +183,7 @@ if __name__ == "__main__":
     a.station = args.station.strip()
     a.vehicle = args.vehicle.strip()
     a.days = args.days
-    a.daysRemaining = int(a.days) * 10
+    a.daysRemaining = int(a.days) * 100
 
     a.start()
     #a.web.start(hostname="127.0.0.1", port="10000")
