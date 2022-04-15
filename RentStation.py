@@ -34,7 +34,7 @@ class RentStation(spade.agent.Agent):
             await self.send(msg)
 
         async def run(self):
-            print("------ CHARGING BEHAVIOUR ------")
+            print("------ RENTING SYSTEM BEHAVIOUR ------")
             self.printCurrentState()
             print("Waiting for requests by users ...")
             print("")
@@ -83,14 +83,20 @@ class RentStation(spade.agent.Agent):
                 if vehicle.name == vehicleName:
                     if not vehicle.isReserved and not vehicle.isCharging:
                         vehicle.isReserved = True
+                        canReserveVehicle = True
+                    else:
+                        canReserveVehicle = False
                     break
             reservationStation = str(self.agent.jid)
 
-            msg = Message(to=sender.localpart + "@" + sender.domain)
-            msg.set_metadata("performative", "inform")
-            msg.set_metadata("ontology", "vehicleReserved")
-            msg.body = reservationStation
-            await self.send(msg)
+            if canReserveVehicle:
+                msg = Message(to=sender.localpart + "@" + sender.domain)
+                msg.set_metadata("performative", "inform")
+                msg.set_metadata("ontology", "vehicleReserved")
+                msg.body = reservationStation
+                await self.send(msg)
+            else:
+                print("Vehicle can't be reserved, sending another station details to customer...")
 
         ### Customer collects vehicle
         ###
@@ -138,6 +144,7 @@ class RentStation(spade.agent.Agent):
                     break
                 
             if needsCharging:
+                print("Started charging vehicles")
                 await asyncio.sleep(20)
                 for vehicle in self.agent.vehicles:
                     vehicle.charge = 100
