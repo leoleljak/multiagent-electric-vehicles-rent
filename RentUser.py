@@ -56,6 +56,13 @@ class ReserveVehicle(State):
                 print("Going to station ...")
                 time.sleep(2)
                 self.set_next_state(COLLECT_VEHICLE)
+            elif msgReceived.metadata["ontology"] == 'noOtherStations':
+                print("No other stations available, finishing agent...")
+                time.sleep(2)
+                self.kill()
+            elif msgReceived.metadata["ontology"] == 'otherStation':
+                self.agent.station = msgReceived.body
+                self.set_next_state(RESERVE_VEHICLE)
 
 class CollectVehicle(State):
     async def run(self):
@@ -149,6 +156,7 @@ class RentUser(Agent):
         fsm.add_state(name=RETURN_VEHICLE, state=ReturnVehicle())
 
         fsm.add_transition(source=RESERVE_VEHICLE, dest=COLLECT_VEHICLE)
+        fsm.add_transition(source=RESERVE_VEHICLE, dest=RESERVE_VEHICLE)
         fsm.add_transition(source=COLLECT_VEHICLE, dest=USE_VEHICLE)
         fsm.add_transition(source=USE_VEHICLE, dest=CHARGE_VEHICLE)
         fsm.add_transition(source=USE_VEHICLE, dest=RETURN_VEHICLE)
