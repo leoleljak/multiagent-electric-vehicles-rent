@@ -3,6 +3,7 @@ import time
 import datetime
 import argparse
 import asyncio
+import random
 from spade.message import Message
 from spade.template import Template
 
@@ -31,6 +32,14 @@ class RentStation(spade.agent.Agent):
             msg.set_metadata("performative", "inform")
             msg.set_metadata("ontology", "myOntology")
             msg.body = "registerStation"
+            await self.send(msg)
+
+        async def on_end(self):
+            print("Ending agent")
+            msg = Message(to="lleljak@rec.foi.hr")
+            msg.set_metadata("performative", "inform")
+            msg.set_metadata("ontology", "myOntology")
+            msg.body = "unregisterStation"
             await self.send(msg)
 
         async def run(self):
@@ -96,7 +105,22 @@ class RentStation(spade.agent.Agent):
                 msg.body = reservationStation
                 await self.send(msg)
             else:
-                print("Vehicle can't be reserved, sending another station details to customer...")
+                numberOfStations = len(self.agent.stations) - 1
+                if numberOfStations == 0:
+                    msg = Message(to=sender.localpart + "@" + sender.domain)
+                    msg.set_metadata("performative", "inform")
+                    msg.set_metadata("ontology", "noOtherStations")
+                    msg.body = reservationStation
+                    await self.send(msg) 
+                else:
+                    randomStation = random.randint(0, numberOfStations)
+                    reservationStation = self.agent.stations[randomStation].partition("@")[0]
+                    msg = Message(to=sender.localpart + "@" + sender.domain)
+                    msg.set_metadata("performative", "inform")
+                    msg.set_metadata("ontology", "otherStation")
+                    msg.body = reservationStation
+                    await self.send(msg) 
+                    print("Vehicle can't be reserved, sending another station details to customer...")
 
         ### Customer collects vehicle
         ###
