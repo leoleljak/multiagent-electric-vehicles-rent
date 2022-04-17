@@ -20,6 +20,9 @@ class RentCentral(spade.agent.Agent):
                 if msg.body == 'registerStation':
                     self.agent.stations.append(msg.sender)
                     await self.updateStations()
+                if msg.body == 'unregisterStation':
+                    await self.unregisterStation(msg.sender.localpart)
+                
                 
             print("")
         
@@ -37,6 +40,15 @@ class RentCentral(spade.agent.Agent):
                 msg.set_metadata("ontology", "updateStationData")
                 msg.body = ",".join(allStationIDs)
                 await self.send(msg)
+
+        ### Unregister station
+        ###
+        async def unregisterStation(self, stationID):
+            for station in self.agent.stations:
+                if station.localpart == stationID:
+                    self.agent.stations.remove(station)
+            await self.updateStations()
+            print("Unregistered station")
 
     async def setup(self):
         print("Setting up central rent system...")
