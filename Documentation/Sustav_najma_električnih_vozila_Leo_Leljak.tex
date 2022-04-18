@@ -33,17 +33,17 @@
 \pagestyle{plain}
 \chapter{Uvod}
 
-Simulacija sustava iznajmljivanja električnih vozila može biti izvedena na više različitih načina. U ovome radu koristimo pojednostavljeni pristup u kojemu se ne dotičemo procesa planiranja i zakazivanja pojedinih narudžba u određeno vrijeme pošto to nije u opsegu ovoga rada. Glavni je fokus na kreiranju različitih ponašanja koji su potrebni kod agenata koje implementiramo. Također koriste se različite vrste ponašanja - ciklično, periodično te konačni automat. U ovome radu prikazana je unakrsna komunikacija između klijenata kao i decentralizirani pristup kreiranja novih agenata u sustav iznajmljivanja električnih vozila. Na taj način sustav je skalabilniji te se može lakše nadodati novi agent, a da svi ostali agenti (pojedinačne postaje) znaju za novog agenta. Postoji jedan centralni agent koji zaprima nove stanice koje se žele uključiti u posao iznajmljivanja, no nakon toga svaka je stanica neovisna o centralnom sustavu što se tiče poslovanja i iznajmljivanja. 
+Simulacija sustava iznajmljivanja električnih vozila može biti izvedena na više različitih načina. U ovome radu koristi se pojednostavljeni pristup u kojemu se ne dotiče proces planiranja i zakazivanja pojedinih narudžba u određeno vrijeme budući da to nije u opsegu ovoga rada. Glavni je fokus na kreiranju različitih ponašanja koja su potrebna kod agenata koji se implementiraju. Također, koriste se različite vrste ponašanja - ciklično, periodično te konačni automat. U ovome radu prikazana je unakrsna komunikacija između klijenata kao i decentralizirani pristup kreiranja novih agenata u sustav iznajmljivanja električnih vozila. Na taj način sustav je skalabilniji te se može lakše nadodati novi agent, a da svi ostali agenti (pojedinačne postaje) znaju za novog agenta. Postoji jedan centralni agent koji zaprima nove stanice koje se žele uključiti u posao iznajmljivanja, no nakon toga svaka je stanica neovisna o centralnom sustavu što se tiče poslovanja i iznajmljivanja. 
 
-Električna vozila zbog svoje zelene tehnologije koju koriste sve su poželjnija vrsta prijevoznog sredstva kojeg krajnji korisnik želi unajmiti. Unutar rada koristi se 4 vrste električnih automobila i 3 vrste električnih bicikala, svaki sa svojim svojstvima kao što su maksimalni domet, dnevna cijena najma, trenutna napunjenost baterije i ostalo. Kasnije će se detaljnjije proći kroz sam opis svojstva i njihovu važnost unutar cijelokupnog sustava najma električnih vozila. Lista vozila proširiva je no za potrebu ovog rada smanjena je na 8 vozila ukupno kako bi fokus bio na arhitekturi rješenja kao i samoj komunikaciji između agenata.
+Električna vozila zbog svoje zelene tehnologije koju koriste sve su poželjnija vrsta prijevoznog sredstva kojeg krajnji korisnik želi unajmiti. Unutar rada koristi se 4 vrste električnih automobila i 3 vrste električnih bicikala, svaki sa svojim svojstvima kao što su maksimalni domet, dnevna cijena najma, trenutna napunjenost baterije i ostalo. Kasnije će se detaljnjije proći kroz sam opis svojstva i njihovu važnost unutar cijelokupnog sustava najma električnih vozila. Lista vozila proširiva je, no za potrebu ovog rada smanjena je na 8 vozila ukupno kako bi fokus bio na arhitekturi rješenja kao i samoj komunikaciji između agenata.
 
 \chapter{Metode i tehnike rada}
 
 Agenti su implementirani u programskom jeziku Python korištenjem biblioteke “Smart Python Agent Development Environment" (SPADE) . SPADE je idealna biblioteka za implementiranje ovoga rješenja, a može se koristiti sa Pythonom 3.6, te biblioteka koristi asyncio i striktno slijedi principe PEP8 i Clean Code. [1]
 
-Tijekom vježbi na kolegiju Višeagentni sustavi korištene su iste tehnologije, te slične tehnike rada. Na vježbama smo se mogli upoznati sa raznim ponašanjima koji se mogu koristiti i implementirati. Gotovo svako od tih ponašanja iskorišteno je u ovome radu pošto je simulacija iznajmljivanja električnih vozila idealan kandidat da bi se unutar strukture rješenja implementirale razne vrste ponašanja agenta. Tako je su u ovom radu korištena ponašanja kao što su ciklično, periodično i ponašanje konačnog automata. 
+Tijekom vježbi na kolegiju Višeagentni sustavi korištene su iste tehnologije te slične tehnike rada. Na vježbama moglo se upoznati sa raznim ponašanjima koja se mogu koristiti i implementirati. Gotovo svako od tih ponašanja iskorišteno je u ovome radu budući da je simulacija iznajmljivanja električnih vozila idealan kandidat da bi se unutar strukture rješenja implementirale razne vrste ponašanja agenta. Tako su u ovom radu korištena ponašanja kao što su ciklično, periodično i ponašanje konačnog automata. 
 
-Korištene su paradigme objektnog programiranja. Kod je iskoristiv te za pokretanje više različitih klijenata koristi se parsiranje ulaznih argumenata kako bi se id i lozinka agenta mogla definirati prilikom pokretanja agenata. Na taj način moguće je pokrenuti više različitih agenata svaki sa svojim korisničkim podacima. Neki dijelovi koda su dokumentirani kako bi se čitaoc mogao lakše snalaziti prilikom pregleda izvornog koda sustava iznajmljivanja električnih vozila.
+Korištene su paradigme objektnog programiranja. Kod je iskoristiv te za pokretanje više različitih klijenata koristi se parsiranje ulaznih argumenata kako bi se ID i lozinka agenta mogla definirati prilikom pokretanja agenata. Na taj način moguće je pokrenuti više različitih agenata svaki sa svojim korisničkim podacima. Neki dijelovi koda su dokumentirani kako bi se čitaoc mogao lakše snalaziti prilikom pregleda izvornog koda sustava iznajmljivanja električnih vozila.
 
 \chapter{Opis sustava i pregled stanja agenata}
 
@@ -51,7 +51,7 @@ U ovom dijelu opisan je način rada sustava za najam električnih vozila kao i i
 
 \section{Višeagentni sustavi}
 
-Prema [2] paradigma višegentnih agenata vezana je uz autonomne, reaktivne entitete koje mogu djelovati individualno i izvršavati specifične zadaće koje su mu dane. Agenti su odlični izvršioci zadaća za koje su namijenjeni te mogu samostalno određivati načine na koji dolaze do ciljeva. Ti načini mogu biti implementirani kao složen algoritam koji agent slijedi ili može postojati određena baza znanja na temelju koje agent odlučuje kako stići do cilja.
+Prema [2] paradigma višegentnih agenata vezana je uz autonomne, reaktivne entitete koji mogu djelovati individualno i izvršavati specifične zadaće koje su mu dane. Agenti su odlični izvršioci zadaća za koje su namijenjeni te mogu samostalno određivati načine na koji dolaze do ciljeva. Ti načini mogu biti implementirani kao složen algoritam koji agent slijedi ili može postojati određena baza znanja na temelju koje agent odlučuje kako stići do cilja.
 
 \begin{figure}[h!]
     \centering
@@ -60,7 +60,7 @@ Prema [2] paradigma višegentnih agenata vezana je uz autonomne, reaktivne entit
     \label{fig:dijagramAgenti}
 \end{figure}
 
-Na slici 1 može se vidjeti shematski primjer jednog agenta koji ima interakciju za svojom okolinom. Agent reagira na promjene okoline preko senzora te postoji zadan set if-then pravila prema kojima on reagira i vrši određene zadaće. Ovdje se radi o primjeru jednostavnog reaktivnog agenta. 
+Na slici 1 može se vidjeti shematski prikaz jednog agenta koji ima interakciju za svojom okolinom. Agent reagira na promjene okoline preko senzora te postoji zadan set if-then pravila prema kojima on reagira i vrši određene zadaće. Ovdje se radi o primjeru jednostavnog reaktivnog agenta. 
 
 \begin{figure}[h!]
 	\centering
@@ -69,11 +69,11 @@ Na slici 1 može se vidjeti shematski primjer jednog agenta koji ima interakciju
 	\label{fig:dijagramAgenti}
 \end{figure}
 
-Na slici 2 vidimo shematski prikaz agenta učenja (eng. Learning agent). Radi se o agentu koji nije samo izvršioc zadataka prema nekom jasnom setu if-then pravila već ima određene ciljeve učenja te pri svakoj interakciji se stvara novi zapis u bazu znanja kako bi već pri sljedećoj interakciji mogao bolje odreagirati na promjene.
+Na slici 2 vidi se shematski prikaz agenta učenja (eng. Learning agent). Radi se o agentu koji nije samo izvršioc zadataka prema nekom jasnom setu if-then pravila već ima određene ciljeve učenja te pri svakoj interakciji stvara novi zapis u bazu znanja kako bi već pri sljedećoj interakciji mogao bolje reagirati na promjene.
 
-Agenti imaju nekoliko mogućih fleksibilnosti - reaktivni, proaktivni te društveni. Reaktivni ageenti su oni koji ostvaruju kontinuiranu interakciju sa svojom okolinom te pravovremeno reagiraju na promjene koje se događaju unutar takve okoline. Proaktivni agenti su agenti koji su pogonjeni ciljevni, tj. Nisu pogonjeni isključivo događajima u okolini. Posljedna moguća fleksibilnost agenta je društevnost koja je sposobno interakcije agenta s drugim agentima putem nekog jezika za komunikaciju.
+Agenti imaju nekoliko mogućih fleksibilnosti - reaktivni, proaktivni te društveni. Reaktivni ageenti su oni koji ostvaruju kontinuiranu interakciju sa svojom okolinom te pravovremeno reagiraju na promjene koje se događaju unutar takve okoline. Proaktivni agenti su agenti koji su pogonjeni ciljevima, tj. nisu pogonjeni isključivo događajima u okolini. Posljedna moguća fleksibilnost agenta je društevnost koja je sposobnost interakcije agenta s drugim agentima putem nekog jezika za komunikaciju.
 
-Često se stavljaju višeagentni sustavi u kontekst umjetne inteligencije te isto tako i ekspertnih sustava. Kod višeagentnih sustava u odnosu na ekspertne sustave razlika je u tome da ekspertni sustavi sadrže informacije, dok agenti nisu stvoreni za pohranjivanje informacija nego izvršavanje nekih konkretnih zadataka. Umjetno inteligencija najčešće ima intenciju oponašati razne situacije koje se nalaze u stvarnom svije, dok su agenti tu da izvršavaju neke jednostavije operacije za koje su namijenjeni.
+Često se stavljaju višeagentni sustavi u kontekst umjetne inteligencije te isto tako i ekspertnih sustava. Kod višeagentnih sustava u odnosu na ekspertne sustave razlika je u tome da ekspertni sustavi sadrže informacije, dok agenti nisu stvoreni za pohranjivanje informacija nego izvršavanje nekih konkretnih zadataka. Umjetna inteligencija najčešće ima intenciju oponašati razne situacije koje se nalaze u stvarnom svijetu, dok su agenti tu da izvršavaju neke jednostavije operacije za koje su namijenjeni.
 
 \section{Komunikacija između agenata}
 
@@ -97,13 +97,13 @@ U ovome poglavlju prikazan je predloženi sustav najma električnih vozila. Sust
 	\label{fig:dijagramAgenti}
 \end{figure}
 
-Unutar sustava postoje tri ključna agenta. Prvi agent Rent Central potrebno je pokrenuti samo jedamput i njegova je namjena da bude glavna tvrtka u koju se mogu učlaniti ostali Rent Stationi. Glavna centrala zadužena je za zaprimanje zahtjeva od Rent Stationa kod početne prijave samih stanica. Kada se prijavi nova stanica u sustav stanica svoj se stanici distribuira poruka o skupu svih trenutno prijavljenih i aktivnih stanica u sustav. 
+Unutar sustava postoje tri ključna agenta. Prvi agent Rent Central potrebno je pokrenuti samo jedanput i njegova je namjena da bude glavna tvrtka u koju se mogu učlaniti ostali Rent Stationi. Glavna centrala zadužena je za zaprimanje zahtjeva od Rent Stationa kod početne prijave samih stanica. Kada se prijavi nova stanica u sustav stanica, svim se stanicama distribuira poruka o skupu svih trenutno prijavljenih i aktivnih stanica u sustavu. 
 
-Na taj način se pokušava decentralizirati sustav. Alternativno tome pristupu bio bi potpuno centralizirani sustav a više o tome u sljedećem potpoglavlju. Krajnji korisnik kada želi unajmiti određeno električno vozilo (bicikl, automobil) može to učini direktno zahtjevom prema željenoj stanici. Ukoliko željena stanica nema vozilo koje korisnik želi unajmiti, ili je vozilo trenutno na punjenju tada stanica uzima neku drugu stanicu iz liste svih trenutno dostupnih stanica i pruža tu informaciju korisniku. U tom slučaju korisnik je obavješten porukom na koju je stanicu upućen.
+Na taj način se pokušava decentralizirati sustav. Alternativno tome pristupu bio bi potpuno centralizirani sustav, a više o tome u sljedećem potpoglavlju. Krajnji korisnik, kada želi unajmiti određeno električno vozilo (bicikl, automobil), može to učini direktno zahtjevom prema željenoj stanici. Ukoliko željena stanica nema vozilo koje korisnik želi unajmiti, ili je vozilo trenutno na punjenju, tada stanica uzima neku drugu stanicu iz liste svih trenutno dostupnih stanica i pruža tu informaciju korisniku. U tom slučaju korisnik je obavješten porukom na koju je stanicu upućen.
 
 \section{Decentralizirani pristup}
 
-Postoje više različitih pristupa izradi ovakvog sustava. U ovome radu korištena je varijanta decentraliziranog pristupa gdje svaka stanica zna za svaku stanicu i može međusobno komunicirati sa njom. Glavna centrala (Rent Central) zadužena je za mogućnost prijave posebnih stanica (Rent Station-a) u sustav najma električnih vozila. Taj dio je ostao centraliziran zbog razloga što mora postojati centralni sustav koji nadzire rad ostalih stanica. Također ukoliko bi to bio sustav koji radi na principu franšize, svaka stanica se mora pojedinačno prijaviti u takav sustav. Kada se pojedinaca stanica prijavi kod Rent Centrala, centralna stanica javlja svim ostalim stanicama koje su trenutno prijavljene trenutni skup svih prijavljenih stanica. Svaka stanica zaprimi trenutni skup svih prijavljenih stanica te ažurira svoje podatke o njima. Na taj način svaka stanica zna za sve stanice koje su trenutno prijavljene u njenoj okolini.
+Postoje više različitih pristupa izradi ovakvog sustava. U ovome radu korištena je varijanta decentraliziranog pristupa gdje svaka stanica zna za svaku stanicu i može međusobno komunicirati sa njom. Glavna centrala (Rent Central) zadužena je za mogućnost prijave posebnih stanica (Rent Station-a) u sustav najma električnih vozila. Taj dio je ostao centraliziran zbog razloga što mora postojati centralni sustav koji nadzire rad ostalih stanica. Također ukoliko bi to bio sustav koji radi na principu franšize, svaka stanica se mora pojedinačno prijaviti u takav sustav. Kada se pojedina stanica prijavi kod Rent Centrala, centralna stanica javlja svim ostalim stanicama koje su trenutno prijavljene trenutni skup svih prijavljenih stanica. Svaka stanica zaprimi trenutni skup svih prijavljenih stanica te ažurira svoje podatke o njima. Na taj način svaka stanica zna za sve stanice koje su trenutno prijavljene u njenoj okolini.
 
 \begin{figure}[h!]
 	\centering
@@ -111,12 +111,12 @@ Postoje više različitih pristupa izradi ovakvog sustava. U ovome radu korište
 	\caption{Dijagram sustava agenata (Izvor: aceinfoway.com/blog/centralized-vs-decentralized-apps, 2022)}
 \end{figure}
 
-Alternativan pristup odabranome bio bi potpuno centralizirani sustav gdje bi Rent Central jedini znao za sve stanice koje su trenutno prijavljenje u sustav. Na taj način bi svaki zahtjev nekoj drugoj stanici preko izvorne stanice morao ići preko centralnog sustava. Na taj način bi se stvorilo veće opterećenje na centralni sustav pošto bi svi zahtjevi išli preko njega. Decentraliziranim pristupom također eliminiramo jednu točku kvara (eng. Single point of failure). Stanice nisu ovisne o jednoj centralnoj stanici te u slučaju da dođe do kvara na centralnoj stanici, svaka stanica može nezavisno djelovati.
+Alternativan pristup odabranome bio bi potpuno centralizirani sustav gdje bi Rent Central jedini znao za sve stanice koje su trenutno prijavljene u sustav. Na taj način bi svaki zahtjev nekoj drugoj stanici, preko izvorne stanice, morao ići preko centralnog sustava. Stoga bi se stvorilo veće opterećenje na centralni sustav budući da bi svi zahtjevi išli preko njega. Decentraliziranim pristupom također eliminiramo jednu točku kvara (eng. Single point of failure). Stanice nisu ovisne o jednoj centralnoj stanici te u slučaju da dođe do kvara na centralnoj stanici, svaka stanica može nezavisno djelovati.
 \pagebreak
 
 \section{Rent Central Agent}
 
-Centralni agent jedini je dio koji je na neki način centraliziran zbog svoje zadaće koje izvršava. Na ovog agenta može se gledati kao na tvrtku koja prodaju svoja prava na rentanje električnih vozila drugim stanicama. 
+Centralni agent jedini je dio koji je na neki način centraliziran zbog svoje zadaće koju izvršava. Na ovog agenta može se gledati kao na tvrtku koja prodaje svoja prava na iznjamljivanje električnih vozila drugim stanicama. 
 
 Agent ima samo jedno ponašanje koje je ciklično. Ciklično ponašanje je poput petlje koja se ponavlja. Postoje tri glavne zadaće, odnosno zahtjeva koje ovo ponašanje može primiti:
 \begin{itemize}
@@ -131,15 +131,15 @@ Agent ima samo jedno ponašanje koje je ciklično. Ciklično ponašanje je poput
 	\caption{Dijagram agenta RentCentral (Izvor: U vlastitoj izvedbi, 2022)}
 \end{figure}
 
-\textbf{Register station} zahtjev šalju stanice kada se žele registrirati u sustav i dobiti informacije o svim drugim stanicama koje se trenutno nalaze u sustavu iznajmljivanja električnih vozila. Kada je takav zahtjev zaprimljen tada se u listu sprema id novoregistrirane stanice te se šalje poruka svim trenutno registriranim stanicama sa trenutnom listom registriranih stanica. Na taj način svaka stanica je obavještena o trenutno registriranim stanicama te svaka stanica zna za svaku stanicu i može izravno komunicirati sa njom preko jedinstvenog id-a stanice.
+\textbf{Register station} zahtjev šalju stanice kada se žele registrirati u sustav i dobiti informacije o svim drugim stanicama koje se trenutno nalaze u sustavu iznajmljivanja električnih vozila. Kada je takav zahtjev zaprimljen, tada se u listu sprema ID novoregistrirane stanice te se šalje poruka svim trenutno registriranim stanicama sa trenutnom listom registriranih stanica. Na taj način svaka stanica je obavještena o trenutno registriranim stanicama te svaka stanica zna za svaku stanicu i može izravno komunicirati s njom preko jedinstvenog ID-a stanice.
 
-\textbf{Unregister station} radi suprotnu stvar od sestrinske register station opcije. Naime sa ovim zahtjevom stanica šalje zahtjev za deregistracijom te se iz liste briše takva stanica i ponovno se šalje svim stanicama ažurirana lista svih aktivnih stanica.
+\textbf{Unregister station} radi suprotnu stvar od sestrinske register station opcije. Naime, s ovim zahtjevom stanica šalje zahtjev za deregistracijom te se iz liste briše takva stanica i ponovno se šalje svim stanicama ažurirana lista svih aktivnih stanica.
 
 \textbf{Update earnings} zahtjev šalju stanice u određenim intervalima. To je definirano ponašanje unutar agenta Rent Stationa kroz koje će se proći u detaljima vezanim uz strukturu agenta Rent Station.
 
 \section{Rent Station Agent}
 
-Rent Station agent sastoji se od dva ponašanja koja su različita po svojim svojstvima. Prvo ponašanje je ciklično ponašanje koje se ponavlja u petlju, te mu je glavna uloga čekanje zahtjeva i regiranje na iste. Drugo ponašanje koje ovaj agent ima je periodično ponašanje, a njegova ključna uloga je izvršavanje periodičnog punjenja baterija električnih vozila. U određenim intervalima takvo ponašanje provjerava trenutno stanje vraćenih vozila te za ona vozila kojima je potrebno punjenje takvo punjenje izvršava.
+Rent Station agent sastoji se od dva ponašanja koja su različita po svojim svojstvima. Prvo ponašanje je ciklično ponašanje koje se ponavlja u petlju te mu je glavna uloga čekanje zahtjeva i reagiranje na isti. Drugo ponašanje koje ovaj agent ima je periodično ponašanje, a njegova ključna uloga je izvršavanje periodičnog punjenja baterija električnih vozila. U određenim intervalima takvo ponašanje provjerava trenutno stanje vraćenih vozila te za ona vozila kojima je potrebno punjenje takvo punjenje izvršava.
 
 \textbf{Glavno ciklično ponašanje} sastoji se od ukupno 4 zahtjeva koje može obraditi:
 \begin{itemize}
@@ -149,9 +149,9 @@ Rent Station agent sastoji se od dva ponašanja koja su različita po svojim svo
 	\item Return vehicle
 \end{itemize}
 
-Na slici NAPIŠI BROJ SLIKE može se vidjeti dijagram prvog ponašanja koje ovaj agent ima. Takvo ponašanje je ciklično, a na samom početku vrše se određene pred radnje. Prisjetimo se da se ovdje radi o stanici za najama električnih vozila koja se na samom početku nakon pokretanja mora registrirati u sustav najama električnih vozila. Ta registracija vrši se komunikacijom sa Central Rent agentom koji je opisan u prethodnom dijelu. 
+Na slici 6 može se vidjeti dijagram prvog ponašanja koje ovaj agent ima. Takvo ponašanje je ciklično, a na samom početku vrše se određene predradnje. Potrebno je prisjetiti se da se ovdje radi o stanici za najam električnih vozila koja se na samom početku, nakon pokretanja,  mora registrirati u sustav najama električnih vozila. Ta registracija vrši se komunikacijom sa Central Rent agentom koji je opisan u prethodnom dijelu. 
 
-Pred radnje ovog agenta također uključuju, osim same registracije kod centralnog agenta, i inicijalno podešavanje dostupnih vozila. Dostupna vozila uključuju električne automobile i bicikle. Za potrebe ovog projekta takva lista je sužena na 3 električnih automobila, te 3 automobila. Također zbog pojednostavljena u sklopu ovog projekta svaka novo registrirana stanica ima isti set električnih automobila i električnih bicikala. Njih, kao i pripadne im karakteristike, može se pronaći u tablici 1 i tablici 2.
+Predradnje ovog agenta također uključuju, osim same registracije kod centralnog agenta, i inicijalno podešavanje dostupnih vozila. Dostupna vozila uključuju električne automobile i bicikle. Za potrebe ovog projekta takva lista je sužena na 3 električnih automobila, te 3 električna bicikla. Također, zbog pojednostavljena u sklopu ovog projekta, svaka novo registrirana stanica ima isti set električnih automobila i električnih bicikala. Njih, kao i pripadne im karakteristike, može se pronaći u tablici 1 i tablici 2.
 
 \pagebreak
 
@@ -167,13 +167,13 @@ Nakon što se obave podešavanja vozila prelazi se na čekanje zahtjeva. Posljed
 
 \textbf{Update station data} zahtjev stiže od Rent Central agenta nakon što se nova stanica prijavi u sustav najma električnih vozila. Ovim zahtjevom obavještava se stanica sa ažuriranom listom svih aktivnih stanica u sustavu. Nakon zaprimljenog zahtjeva stanica ažurira svoju trenutnu listu.
 
-\textbf{Reserve vehicle zahtjev} pristiže od Rent User agenta koji želi rezervirati određeno vozilo. Stanica provjerava da li je to vozilo dostupno. Dostupnost vozila ovisi o tome je li već prethodno rezervirano i je li trenutno na punjenju ili ne. Ukoliko vozilo nije na punjenju i nije trenutno rezervirano tada se takvo vozilo može unajmiti. U tom slučaju stanica šalje korisniku informaciju o tome da je vozilo uspješno rezervirano. Ukoliko vozilo nije dostupno šalje se sljedeći ID stanice kako bi korisnik mogao poslati zahtjev prema sljedećoj stanici.
+\textbf{Reserve vehicle zahtjev} pristiže od Rent User agenta koji želi rezervirati određeno vozilo. Stanica provjerava je li to vozilo dostupno. Dostupnost vozila ovisi o tome je li već prethodno rezervirano i je li trenutno na punjenju ili ne. Ukoliko vozilo nije na punjenju i nije trenutno rezervirano tada se takvo vozilo može unajmiti. U tom slučaju stanica šalje korisniku informaciju o tome da je vozilo uspješno rezervirano. Ukoliko vozilo nije dostupno šalje se sljedeći ID stanice kako bi korisnik mogao poslati zahtjev prema sljedećoj stanici.
 
-\textbf{Collect vehicle zahtjev} pristiže od Rent User agenta koji je došao pokupiti svoje rezervirano vozilo. U ovome trenutku unaprijed se naplaćuje iznos najma električnog vozila ovisno o broju dana koje je korisnik odabrao. Također se ažurira trenutan iznos ukupnih primanja za stanicu. Nakon što su obavljenje ove akcije šalje se potvrda korisniku da je proces gotov, odnosno da korisnik može početi koristiti vozilo.
+\textbf{Collect vehicle zahtjev} pristiže od Rent User agenta koji je došao pokupiti svoje rezervirano vozilo. U ovome trenutku unaprijed se naplaćuje iznos najma električnog vozila ovisno o broju dana koje je korisnik odabrao. Također se ažurira trenutan iznos ukupnih primanja za stanicu. Nakon što su obavljenje ove akcije, šalje se potvrda korisniku da je proces gotov, odnosno da korisnik može početi koristiti vozilo.
 
 \textbf{Return vehicle zahtjev} pristiže od Rent User agenta i odnosi se na vraćanje vozila nakon isteka najma. Stanica ažurira trenutnu informaciju vozila o stanju napunjenosti baterije. Nakon toga ažurira se trenutno stanje vozila po pitanju rezervacije i statusu punjenja. Na kraju se šalje potvrda korisniku.
 
-\textbf{Periodično ponašanje} punjenja vozila ponavlja se u jednakim intervalima, te se odnosi na radnje vezane uz punjenje vozila koje su vraćena i koja trenutno nemaju potpuno napunjenu bateriju. Na početku svakog ciklusa ovog ponašanja ispisuje se trenutno stanje vozila i njegovu napunjenost baterijskog sustava. Nakon toga prolazi se kroz listu svih vozila i provjerava se da li je potrebno punjenje bilo kojeg vozila. Ukoliko je potrebno vrši se punjenje u nekom proizvoljnom vremenu. To vrijeme biti će definirano u samoj implementaciji agenata. Nakon što su sva vozila napunjenja takvo će ponašanje biti izvršeno ponovno u zadanom intervalu.
+\textbf{Periodično ponašanje} punjenja vozila ponavlja se u jednakim intervalima te se odnosi na radnje vezane uz punjenje vozila koja su vraćena i koja trenutno nemaju potpuno napunjenu bateriju. Na početku svakog ciklusa ovog ponašanja ispisuje se trenutno stanje vozila i njegova napunjenost baterijskog sustava. Nakon toga prolazi se kroz listu svih vozila i provjerava se je li potrebno punjenje bilo kojeg vozila. Ukoliko je potrebno, vrši se punjenje u nekom proizvoljnom vremenu. To vrijeme bit će definirano u samoj implementaciji agenata. Nakon što su sva vozila napunjena, takvo će ponašanje biti izvršeno ponovno u zadanom intervalu.
 
 \begin{figure}[h!]
 	\centering
@@ -208,9 +208,9 @@ Nakon početne konfiguracije definiraju se tranzicije u kojima se automat može 
 	\caption{Tablica stanja i prijalaza RentUser agenta (Izvor: U vlastitoj izvedbi, 2022)}
 \end{figure}
 
-Sve počinje sa RESERVE\_VEHICLE stanjem u kojem korisnik šalje poruku željenoj stanici da želi rezervirati određeno vozilo na određen broj dana. Ulazni parametri definirani su prilikom pokretanja samog agenta. Nakon toga čeka se na odgovor, a ako je odgovor afirmitivan tada se prelazi u stanje COLLECT\_VEHICLE. Ako odgovor nije afirmitivan mijenja se željena stanica rezervacije i ponovno se prelazi u slanje poruke novoj stanici. 
+Sve počinje sa RESERVE\_VEHICLE stanjem u kojem korisnik šalje poruku željenoj stanici da želi rezervirati određeno vozilo na određen broj dana. Ulazni parametri definirani su prilikom pokretanja samog agenta. Nakon toga čeka se na odgovor, a ako je odgovor afirmativan tada se prelazi u stanje COLLECT\_VEHICLE. Ako odgovor nije afirmativan mijenja se željena stanica rezervacije i ponovno se prelazi u slanje poruke novoj stanici. 
 
-Nakon što se uspješno rezervira vozilo prelazi se u stanje COLLECT\_VEHICLE gdje korisnik dolazi do određene stanice i preuzima vozilo. U tom trenutku korisnik plaća iznos najamnine vozila. Zatim se prelazi u stanje USE\_VEHICLE gdje korisnik koristi svoje iznajmljeno vozilo sve dok ga ne isprazni. Kada ga isprazni provjerava se da li je moguće i dalje koristiti vozilo, odnosno da li vrijeme koje je ostalo za korištenje vozila je dovoljno da se vozilo napuni i isprazni do kraja. Ukoliko to vrijeme dozvoljava tada prelazimo u stanje CHARGE\_VEHICLE. Ukoliko to vrijeme ne dozvoljava tada se vozilo mora vratiti u stanicu odnosno u stanje RETURN\_VEHICLE. Kod CHARGE\_VEHICLE stanja vozilo se puni do svoje maksimalne razine te se tada ponovno prelazi u stanje USE\_VEHICLE. Kada se prijeđe u stanje RETURN\_VEHICLE tada se javlja stanici da želimo vratiti vozilo, te kada se vozilo vrati završava životni ciklus ovog konačnog automata.
+Nakon što se uspješno rezervira vozilo prelazi se u stanje COLLECT\_VEHICLE gdje korisnik dolazi do određene stanice i preuzima vozilo. U tom trenutku korisnik plaća iznos najamnine vozila. Zatim se prelazi u stanje USE\_VEHICLE gdje korisnik koristi svoje iznajmljeno vozilo sve dok ga ne isprazni. Kada ga isprazni, provjerava se je li moguće i dalje koristiti vozilo, odnosno je li vrijeme koje je ostalo za korištenje vozila je dovoljno da se vozilo napuni i isprazni do kraja. Ukoliko to vrijeme dozvoljava, tada prelazimo u stanje CHARGE\_VEHICLE. Ukoliko to vrijeme ne dozvoljava, tada se vozilo mora vratiti u stanicu, odnosno u stanje RETURN\_VEHICLE. Kod CHARGE\_VEHICLE stanja vozilo se puni do svoje maksimalne razine te se tada ponovno prelazi u stanje USE\_VEHICLE. Kada se prijeđe u stanje RETURN\_VEHICLE, tada se javlja stanici da se želi vratiti vozilo te kada se vozilo vrati, završava životni ciklus ovog konačnog automata.
 
 \begin{figure}[h!]
 	\centering
@@ -221,11 +221,11 @@ Nakon što se uspješno rezervira vozilo prelazi se u stanje COLLECT\_VEHICLE gd
 
 \chapter{Implementacija rada}
 
-U ovom dijelu proći će se kroz implementaciju pojedinog agenta u samom kodu. Biti će izdvojeni ključni dijelovi, odnosno ključne zadaće koje izvršavaju pojedini agenti i njihova ponašanja. U prošlom poglavlju detaljno smo prošli kroz dijagrame i izvedbu agenata i njegovih ponašanja te je pojašnjena u detalje njihova uloga i međusobno komunikacija. Izdvojeni su dijelovi koda koja vrše ključne zadaće u agentima.
+U ovom dijelu proći će se kroz implementaciju pojedinog agenta u samom kodu. Bit će izdvojeni ključni dijelovi, odnosno ključne zadaće koje izvršavaju pojedini agenti i njihova ponašanja. U prošlom poglavlju detaljno se prošlo kroz dijagrame i izvedbu agenata i njegovih ponašanja te je pojašnjena u detalje njihova uloga i međusobna komunikacija. Izdvojeni su dijelovi koda koji vrše ključne zadaće u agentima.
 
 \section{Rent Central Agent}
 
-Kroz dijagrame ponašanja ovog agenta prošli smo u prošlom poglavlju. Ovdje ćemo proći kroz implementaciju koda za najvažnije dijelove ovog agenta. Ovaj agent ima jedno glavno ponašanje koje je ciklično te služi zaprimanju i obradi zahtjeva od ostalih stanica.
+Kroz dijagrame ponašanja ovog agenta prošlo se u prošlom poglavlju. Ovdje će se proći kroz implementaciju koda za najvažnije dijelove ovog agenta. Ovaj agent ima jedno glavno ponašanje koje je ciklično te služi zaprimanju i obradi zahtjeva od ostalih stanica.
 
 \begin{flushleft}\textbf{MainBehaviour - implementacija čekanja zahtjeva}\end{flushleft}
 
@@ -249,7 +249,7 @@ msg = await self.receive(timeout=100)
 			await self.unregisterStation(msg.sender.localpart)
 \end{lstlisting}
 
-Ovdje je najveći naglasak na dva zahtjeva koje obrađuje ovaj agent, a to su register i unregisterStation. Nakon zaprimanja zahtjeva registerStation() tada se poziva funkcija updateStations().
+Ovdje je najveći naglasak na dva zahtjeva koja obrađuje ovaj agent, a to su register i unregisterStation. Nakon zaprimanja zahtjeva registerStation() poziva se funkcija updateStations().
 
 \begin{flushleft}\textbf{updateStations()}\end{flushleft}
 
@@ -268,7 +268,7 @@ for station in self.agent.stations:
 	await self.send(msg)
 \end{lstlisting}
 
-U ovom asinkronoj funkciji nakon registracije novo prijavljenje stanice šaljemo informaciju o trenutno svim registiranim stanicama pojedinačno svakoj stanici koja je trenutno aktivna.
+U ovoj asinkronoj funkciji, nakon registracije novo prijavljenje stanice, šalje se informacija o trenutno svim registriranim stanicama, pojedinačno svakoj stanici koja je trenutno aktivna.
 
 \begin{flushleft}\textbf{unregisterStation()}\end{flushleft}
 
@@ -281,11 +281,11 @@ async def unregisterStation(self, stationID):
 	print("Unregistered station")
 \end{lstlisting}
 
-Ova funkcija koristi se kada neka stanica želi izaći iz sustava trenutno aktivnih stanica te se odjavljuje, tj. deregistrira iz sustava. Također poziva se funkcija updateStations() kako bi se trenutni set aktivnih stanica ažurirao kod svake stanice posebno.
+Ova funkcija koristi se kada neka stanica želi izaći iz sustava trenutno aktivnih stanica te se odjavljuje, tj. deregistrira iz sustava. Također, poziva se funkcija updateStations() kako bi se trenutni set aktivnih stanica ažurirao kod svake stanice posebno.
 
 \section{Rent Station Agent}
 
-Ovaj agent ima dva ponašanja kroz koja smo prošli u prošlom poglavlju. Glavno ponašanje koje je ciklično te služi zaprimanju i obradi zahtjeva od pojedinačnih klijenata, te također periodično ponašanje koje služi za periodično punjenje baterija električnih vozila.
+Ovaj agent ima dva ponašanja kroz koja se prošlo u prošlom poglavlju. Glavno ponašanje, koje je ciklično te služi zaprimanju i obradi zahtjeva od pojedinačnih klijenata te također periodično ponašanje, koje služi za periodično punjenje baterija električnih vozila.
 
 \begin{flushleft}\textbf{MainBehaviour - on\_start}\end{flushleft}
 
@@ -310,7 +310,7 @@ msg.body = "unregisterStation"
 await self.send(msg)
 \end{lstlisting}
 
-Na početku glavnog ponašanja radimo registraciju stanice u sustav svih aktivnih stanica. Ta poruka šalje se prema Rent Central agentu. Kod završetka ponašanja agenta šalje se unregisterStation poruka koja označava da se ta stanica želi odjaviti iz sustava najma električnih vozila. Takva se poruka također šalje centralnom agentu.
+Na početku glavnog ponašanja radi se registracija stanice u sustav svih aktivnih stanica. Ta poruka šalje se prema Rent Central agentu. Kod završetka ponašanja agenta šalje se unregisterStation poruka koja označava da se ta stanica želi odjaviti iz sustava najma električnih vozila. Takva se poruka također šalje centralnom agentu.
 
 \begin{flushleft}\textbf{MainBehaviour - postavljanje vozila}\end{flushleft}
 
@@ -352,7 +352,7 @@ def setupBikes(self):
 
 \begin{flushleft}\textbf{MainBehaviour - run}\end{flushleft}
 
-Ključna uloga glavnog ponašanja definirano je u run funkciji. Ovo ponašanje zaduženo je za obradu zahtjeva koji pristižu prema RentStation agentu.
+Ključna uloga glavnog ponašanja definirana je u run funkciji. Ovo ponašanje zaduženo je za obradu zahtjeva koji pristižu prema RentStation agentu.
 
 \begin{lstlisting}[language=Python]
 
@@ -383,7 +383,7 @@ async def run(self):
 
 \begin{flushleft}\textbf{MainBehaviour - reserveVehicle}\end{flushleft}
 
-Funkcijom reserveVehicle obrađuje se zahtjev klijenta za rezerviranjem vozila. Pronalazi se vozilo koje korisnik želi rezervirati i ukoliko je rezervacija moguća (prema pravilima definiranim u prethodnom poglavlju) vrši se rezervacija vozila. Ukoliko se vozilo ne može rezervirati tada se šalje id neke druge stanice korisniku kako bi mogao poslati zahtjev na drugu adresu. Ukoliko se vozilo može rezervirati, šalje se potvrdna poruka o rezervaciji željenog vozila.
+Funkcijom reserveVehicle obrađuje se zahtjev klijenta za rezerviranjem vozila. Pronalazi se vozilo koje korisnik želi rezervirati i ukoliko je rezervacija moguća (prema pravilima definiranim u prethodnom poglavlju), vrši se rezervacija vozila. Ukoliko se vozilo ne može rezervirati, tada se šalje ID neke druge stanice korisniku, kako bi mogao poslati zahtjev na drugu adresu. Ukoliko se vozilo može rezervirati, šalje se potvrdna poruka o rezervaciji željenog vozila.
 
 \begin{lstlisting}[language=Python]
 
@@ -428,7 +428,7 @@ else:
 
 \begin{flushleft}\textbf{MainBehaviour - collectVehicle}\end{flushleft}
 
-Funkcijom collectVehicle korisnik javlja da je došao preuzeti vozilo. U tom trenutku također korisnik i plaća vozilo, te se ažurira ukupna zarada stanice. Također šalje se potvrdna poruka prema klijentu.
+Funkcijom collectVehicle korisnik javlja da je došao preuzeti vozilo. U tom trenutku, također, korisnik plaća vozilo te se ažurira ukupna zarada stanice. Uz to šalje se potvrdna poruka prema klijentu.
 
 \begin{lstlisting}[language=Python]
 
@@ -450,7 +450,7 @@ async def collectVehicle(self, vehicleName, days, sender):
 
 \begin{flushleft}\textbf{MainBehaviour - returnVehicle}\end{flushleft}
 
-Funkcijom returnVehicle korisnik javlja da je došao vratiti vozilo. Vozilo se stavlja u red na čekanje punjenja, te se njegova zastavica stanja rezervacije postavlja na false. Također se šalje potvrdna poruka prema klijentu.
+Funkcijom returnVehicle korisnik javlja da je došao vratiti vozilo. Vozilo se stavlja u red na čekanje punjenja te se njegova zastavica stanja rezervacije postavlja na false. Također se šalje potvrdna poruka prema klijentu.
 
 \begin{lstlisting}[language=Python]
 
@@ -473,8 +473,6 @@ async def returnVehicle(self, vehicleName, chargeLeft, sender):
 \end{lstlisting}
 
 \begin{flushleft}\textbf{ChargingBehaviour}\end{flushleft}
-
-Funkcijom returnVehicle korisnik javlja da je došao vratiti vozilo. Vozilo se stavlja u red na čekanje punjenja, te se njegova zastavica stanja rezervacije postavlja na false. Također se šalje potvrdna poruka prema klijentu.
 
 \begin{lstlisting}[language=Python]
 
@@ -506,15 +504,15 @@ async def run(self):
 
 \end{lstlisting}
 
-Periodično ponašanje punjenja vozila ponavlja se u jednakim intervalima, te se odnosi na radnje vezane uz punjenje vozila koje su vraćena i koja trenutno nemaju potpuno napunjenu bateriju. Na početku svakog ciklusa ovog ponašanja ispisuje se trenutno stanje vozila i njegovu napunjenost baterijskog sustava. Nakon toga prolazi se kroz listu svih vozila i provjerava se da li je potrebno punjenje bilo kojeg vozila. Ukoliko je potrebno vrši se punjenje u nekom proizvoljnom vremenu. Nakon što su sva vozila napunjenja takvo će ponašanje biti izvršeno ponovno u zadanom intervalu.
+Periodično ponašanje punjenja vozila ponavlja se u jednakim intervalima te se odnosi na radnje vezane uz punjenje vozila koja su vraćena i koja trenutno nemaju potpuno napunjenu bateriju. Na početku svakog ciklusa ovog ponašanja ispisuje se trenutno stanje vozila i njegova napunjenost baterijskog sustava. Nakon toga prolazi se kroz listu svih vozila i provjerava se je li potrebno punjenje bilo kojeg vozila. Ukoliko je potrebno, vrši se punjenje u nekom proizvoljnom vremenu. Nakon što su sva vozila napunjenja, takvo će ponašanje biti izvršeno ponovno u zadanom intervalu.
 
 \section{Rent User Agent}
 
-Ovaj agent kreiran je kao konačni automat stanja zbog svoje savršene predispozicije. Prijelaz iz stanja u stanje, te moguće tranzicije definirane su u prethodnom poglavlju gdje je detaljnije opisana arhitektura sustava. Ovdje ćemo proći kroz implementaciju konkretnih stanja u kodu.
+Ovaj agent kreiran je kao konačni automat stanja zbog svoje savršene predispozicije. Prijelaz iz stanja u stanje te moguće tranzicije definirane su u prethodnom poglavlju gdje je detaljnije opisana arhitektura sustava. Ovdje će se proći kroz implementaciju konkretnih stanja u kodu.
 
 \begin{flushleft}\textbf{RESERVE\_VEHICLE stanje}\end{flushleft}
 
-Sa ovim stanjem počinje agent. Iz ovog stanje može ponovno prijeći u svoje stanje ili prelazi u stanje COLLECT\_VEHICLE.
+S ovim stanjem počinje agent. Iz ovog stanja može ponovno prijeći u svoje stanje ili prelazi u stanje COLLECT\_VEHICLE.
 
 \begin{lstlisting}[language=Python]
  ## Tell station that you want to reserve it - if it's unavailable station will give you
@@ -546,11 +544,11 @@ if msgReceived and msgReceived.metadata:
 		self.set_next_state(RESERVE_VEHICLE)
 \end{lstlisting}
 
-Prijelaz stanja ovisi o tome da li je korisnik uspješno rezervirao vozilo kod željene stanice. Ako je dobio povratnu informaciju sa novim id-em stanice tada ponovno prelazi u isto stanje i ponovno šalje zahtjev za rezervacijom na novu adresu stanice. Ukoliko dobiva povratnu informaciju da nema drugih stanica u blizini agent završava sa svojim radom.
+Prijelaz stanja ovisi o tome je li korisnik uspješno rezervirao vozilo kod željene stanice. Ako je dobio povratnu informaciju sa novim ID-em stanice, tada ponovno prelazi u isto stanje i ponovno šalje zahtjev za rezervacijom na novu adresu stanice. Ukoliko dobiva povratnu informaciju da nema drugih stanica u blizini, agent završava sa svojim radom.
 
 \begin{flushleft}\textbf{COLLECT\_VEHICLE stanje}\end{flushleft}
 
-Ukoliko je agent uspješno rezervirao vozilo, prelazi u stanje COLLECT\_VEHICLE, te iz tog stanja prelazi u USE\_VEHICLE stanje ukoliko je dobiven afirmativan odgovor.
+Ukoliko je agent uspješno rezervirao vozilo, prelazi u stanje COLLECT\_VEHICLE te iz tog stanja prelazi u USE\_VEHICLE stanje, ukoliko je dobiven afirmativan odgovor.
 
 \begin{lstlisting}[language=Python]
 ## Tell station that you collected vehicle and pay at advance
@@ -570,7 +568,7 @@ print("Vehicle is collected and rent is payed", msgReceived.body, "€")
 
 \begin{flushleft}\textbf{USE\_VEHICLE stanje}\end{flushleft}
 
-U ovom stanju agent koristi vozilo sve dok se njegova baterija ne isprazni. Korištena je skraćena logika vremena u sekunda podijeljena sa 10 tako da se ne treba dugo čekati kada se simulacija pokreće. 
+U ovom stanju agent koristi vozilo sve dok se njegova baterija ne isprazni. Korištena je skraćena logika vremena u sekunda podijeljena s 10 tako da se ne treba dugo čekati kada se simulacija pokreće. 
 
 \begin{lstlisting}[language=Python]
 ## Random usage, random charging after it's used and etc
@@ -597,7 +595,7 @@ else:
 	self.set_next_state(RETURN_VEHICLE)    
 \end{lstlisting}
 
-Kada korisnik vozilo isprazni provjerava se da li je moguće i dalje koristiti vozilo, odnosno da li vrijeme koje je ostalo za korištenje vozila je dovoljno da se vozilo napuni i isprazni do kraja. Ukoliko to vrijeme dozvoljava tada prelazimo u stanje CHARGE\_VEHICLE. Ukoliko to vrijeme ne dozvoljava tada se vozilo mora vratiti u stanicu odnosno u stanje RETURN\_VEHICLE.
+Kada korisnik vozilo isprazni, provjerava se je li moguće i dalje koristiti vozilo, odnosno je li vrijeme koje je ostalo za korištenje vozila je dovoljno da se vozilo napuni i isprazni do kraja. Ukoliko to vrijeme dozvoljava, tada prelazimo u stanje CHARGE\_VEHICLE. Ukoliko to vrijeme ne dozvoljava, tada se vozilo mora vratiti u stanicu, odnosno u stanje RETURN\_VEHICLE.
 
 \begin{flushleft}\textbf{CHARGE\_VEHICLE stanje}\end{flushleft}
 
@@ -620,7 +618,7 @@ U ovom stanju korisnik stavlja vozilo na punjenje. Nakon toga prolazi se u USE\_
 
 \begin{flushleft}\textbf{RETURN\_VEHICLE stanje}\end{flushleft}
 
-Kada je vrijeme najma vozila isteklo tada se prelazi u ovo stanje gdje se šalje zahtjev prema stanici gdje je vozilo iznajmljeno da se vozilo vraća. Također se u takvoj poruci šalje i informacija o tome koliko je trenutno baterije ostalo u vozilu kako bi stanica imala takav podatak i mogla ažurirati svoje stanje.
+Kada je vrijeme najma vozila isteklo, tada se prelazi u ovo stanje gdje se šalje zahtjev prema stanici gdje je vozilo iznajmljeno, da se vozilo vraća. Također se u takvoj poruci šalje i informacija o tome koliko je trenutno baterije ostalo u vozilu kako bi stanica imala takav podatak i mogla ažurirati svoje stanje.
 
 \begin{lstlisting}[language=Python]
  ## Tell station that you are giving it back and how much charge is left
@@ -642,7 +640,7 @@ time.sleep(2)
 
 \chapter{Prikaz rada aplikacije}
 
-U ovom poglavlju proći ćemo kroz neke primjere korištenja aplikacije. Za početak ćemo pokrenuti glavni centralni agenta, a to je RentCentral.
+U ovom poglavlju proći će se kroz neke primjere korištenja aplikacije. Za početak će se pokrenuti glavni centralni agent, a to je RentCentral.
 
 \begin{figure}[H]
     \centering
@@ -650,7 +648,7 @@ U ovom poglavlju proći ćemo kroz neke primjere korištenja aplikacije. Za poč
     \caption{RentCentral pokretanje (Izvor: u vlastitoj izvedbi (snimka zaslona), 2022)}
 \end{figure}
 
-Nakon što se pokrene centralni program on ispisuje trenutno prijavljene stanice koje su trenutno dostupne. Trenutno nema prijavljenih stanica pa je takva lista prazna. Potrebno je pokrenuti sljedećeg agenta, a to je RentStation. U ovom ćemo primjeru pokrenuti ukupno dvije različite stanice.
+Nakon što se pokrene centralni program, on ispisuje trenutno prijavljene stanice koje su dostupne. Trenutno nema prijavljenih stanica pa je takva lista prazna. Potrebno je pokrenuti sljedećeg agenta, a to je RentStation. U ovom će se primjeru pokrenuti ukupno dvije različite stanice.
 
 \begin{figure}[H]
 	\centering
@@ -664,9 +662,9 @@ Nakon što se pokrene centralni program on ispisuje trenutno prijavljene stanice
 	\caption{Pokretanje stanice B (Izvor: u vlastitoj izvedbi (snimka zaslona), 2022)}
 \end{figure}
 
-Nakon što se takve stanice pokrenu pokreću se i njihova ponašanja, te se ispisuje trenutno stanje vozila kao i stanje na punjenju. U ovome trenutku imamo pokrenuto ukupno tri agenata od koji je jedan centralni, dok su dva stanice koje pružaju usluge. 
+Nakon što se takve stanice pokrenu, pokreću se i njihova ponašanja te se ispisuje trenutno stanje vozila kao i stanje na punjenju. U ovome trenutku pokrenuto je ukupno tri agenata od kojih je jedan centralni, dok su dva stanice koje pružaju usluge. 
 
-Ukoliko sada pogledamo centralnog agenta možemo vidjeti da je on registrirao obje stanice te da ima podatke o njima. 
+Ukoliko se sada pogleda centralni agent, može se vidjeti da je on registrirao obje stanice te da ima podatke o njima. 
 
 \begin{figure}[H]
 	\centering
@@ -674,7 +672,7 @@ Ukoliko sada pogledamo centralnog agenta možemo vidjeti da je on registrirao ob
 	\caption{RentCentral pregled trenutnih stanica (Izvor: u vlastitoj izvedbi (snimka zaslona), 2022)}
 \end{figure}
 
-Također kod prve stanice, zovimo je \textbf{stanica A} možemo vidjeti da ona ima također znanja o svim trenutno registiranim stanicama.
+Također kod prve stanice, \textbf{stanice A}, može se vidjeti da ona također ima znanja o svim trenutno registiranim stanicama.
 
 \begin{figure}[H]
 	\centering
@@ -682,7 +680,7 @@ Također kod prve stanice, zovimo je \textbf{stanica A} možemo vidjeti da ona i
 	\caption{Stanica A - prikaz svih stanica (Izvor: u vlastitoj izvedbi (snimka zaslona), 2022)}
 \end{figure}
 
-Kod \textbf{stanice B} imamo isti slučaj, ona također je zaprimila poruku od glavne stanice te ima podatke o trenutno svim prijavljenim stanicama u sustav.
+Kod \textbf{stanice B} slučaj je isti, ona također zaprima poruku od glavne stanice te ima podatke o trenutno svim prijavljenim stanicama u sustavu.
 
 \begin{figure}[H]
 	\centering
@@ -690,7 +688,7 @@ Kod \textbf{stanice B} imamo isti slučaj, ona također je zaprimila poruku od g
 	\caption{Stanica B - prikaz svih stanica(Izvor: u vlastitoj izvedbi (snimka zaslona), 2022)}
 \end{figure}
 
-Sad kad imamo spremno sve kako bismo mogli iznajmiti električno vozilo, pokrenimo zahtjev za najmom električnog vozila preko agenta RentUser. Pokrenuti ćemo zahtjev za vozilom mazda i želimo ga rezervirati na 1 dan.
+Sada kada je sve spremno za iznajmljivanje električnih vozila, pokreće se zahtjev za najmom električnog vozila preko agenta RentUser. Pokrenut će se zahtjev za vozilom mazda kojeg se želi rezervirati na 1 dan.
 
 python3 RentUser.py -jid agent@rec.foi.hr -pwd tajna -station igrac1 -vehicle mazda -days 1
 
@@ -710,7 +708,7 @@ Zahtjev se šalje stanici A.
 	\caption{Stanica A pruža najam vozila korisniku (Izvor: u vlastitoj izvedbi (snimka zaslona), 2022)}
 \end{figure}
 
-Na gornje dvije slike može se vidjeti kako je zahtjev obrađen te je korisnik uspješno rezervirao vozilo kod stanice A. Stanica A promijenila je stanje vozila u rezervirano, te je nakon toga korisnik došao pokupiti svoje vozilo. Nakon toga stanica je uspješno naplatila najam vozila te se je trenutno stanje ukupne zarade promijenilo sukladno troškovima. Korisnik je počeo koristiti vozilo te se na slici vidi jedna iteracija korištenja gdje je korisnik ispraznio vozilo do kraja, napunio ga i ponovno počeo koristiti vozilo. Sada ćemo pogledati kako izgleda kraj korištenja kada više korisnik nema vremena za korištenje vozila, odnosno vrijeme najma je isteklo.
+Na gornje dvije slike može se vidjeti kako je zahtjev obrađen te je korisnik uspješno rezervirao vozilo kod stanice A. Stanica A promijenila je stanje vozila u rezervirano te je nakon toga korisnik došao pokupiti svoje vozilo. Nakon toga stanica je uspješno naplatila najam vozila te se trenutno stanje ukupne zarade promijenilo sukladno troškovima. Korisnik je počeo koristiti vozilo te se na slici vidi jedna iteracija korištenja gdje je korisnik ispraznio vozilo do kraja, napunio ga i ponovno počeo koristiti vozilo. Sada će se pokazati primjer kako izgleda kraj korištenja kada korisnik više nema vremena za korištenje vozila, odnosno vrijeme najma je isteklo.
 
 \begin{figure}[H]
 	\centering
@@ -728,9 +726,9 @@ Kada je vrijeme isteklo korisnik je vratio vozilo u stanicu.
 	\caption{Ponašanje punjenja kod Stanice A (Izvor: u vlastitoj izvedbi (snimka zaslona), 2022)}
 \end{figure}
 
-Stanica je obradila zahtjev te se vozilo stavilo na punjenje. Na gornjoj slici možemo vidjeti da je pokrenuto ponašanje punjenja, te su sada sva vozila kojima je bilo potrebno punjenje napunjena.
+Stanica je obradila zahtjev te se vozilo stavilo na punjenje. Na gornjoj slici može se vidjeti da je pokrenuto ponašanje punjenja te su sada sva vozila, kojima je bilo potrebno punjenje, napunjena.
 
-Također proći ćemo kroz još jedan primjer u radu aplikacije. Naime ukoliko korisnik iznajmi vozilo, te drugi korisnik želi iznajmiti isto to vozilo na istoj stanici takvo vozilo nije dostupno. U tom će ga slučaju stanica A preusmjeriti u stanicu B te će korisnik uspješno rezervirati vozilo u drugoj stanici što možemo vidjeti na potonjoj slici.
+Također, proći će se kroz još jedan primjer u radu aplikacije. Naime, ukoliko korisnik iznajmi vozilo te drugi korisnik želi iznajmiti isto to vozilo na istoj stanici, takvo vozilo nije dostupno. U tom će ga slučaju stanica A preusmjeriti u stanicu B te će korisnik uspješno rezervirati vozilo u drugoj stanici što se može vidjeti na potonjoj slici.
 
 \begin{figure}[H]
 	\centering
@@ -741,7 +739,7 @@ Također proći ćemo kroz još jedan primjer u radu aplikacije. Naime ukoliko k
 
 \chapter{Zaključak}
 
-Prikazanim sustavom najma električnih vozila ostvaren je cilj projektnog zadatka gdje je glavni fokus na međusobnu komunikaciju agenata i njihovu suradnju. Gotovo svaki agent imao je mogućnost zaprimanja zahtjeva, ali je i slao zahtjeve prema drugim agentima. Pokušaj decentralizacije sustava je uspio na način da svaka stanica je neovisna, te može raditi i ukoliko glavni centar prestane sa svojim radom. Sustav je pojednostavljen kako bi se veća pozornost svela na međusobnu komunikaciju agenata i na implementaciju raznih ponašanja kod istih. U ovome radu korištene su različite vrste ponašanja poput cikličnog, periodičnog, te konačni automat stanja. Konačni automat stanja bio mi je najzanimljivi od njih zbog svoje specifičnosti izvedbe gdje su stanja unaprijed jasno definirana i moguće je lako prenijeti zamišljeno u kod. Ciklično ponašanje uglavnom se koristilo kod zaprimanja i obrade zahtjeva zbog potrebe da se takva radnja vrti u krug i da agenti mogu ponovno zaprimiti novi zahtjev. 
+Prikazanim sustavom najma električnih vozila ostvaren je cilj projektnog zadatka gdje je glavni fokus na međusobnoj komunikaciji agenata i njihovoj suradnji. Gotovo svaki agent imao je mogućnost zaprimanja zahtjeva, ali je i slao zahtjeve prema drugim agentima. Pokušaj decentralizacije sustava je uspio na način da je svaka stanica neovisna te može raditi i ukoliko glavni centar prestane sa svojim radom. Sustav je pojednostavljen kako bi se veća pozornost svela na međusobnu komunikaciju agenata i na implementaciju raznih ponašanja kod istih. U ovome radu korištene su različite vrste ponašanja poput cikličnog, periodičnog, te konačni automat stanja. Konačni automat stanja bio mi je najzanimljivi od njih zbog svoje specifičnosti izvedbe gdje su stanja unaprijed jasno definirana i moguće je lako prenijeti zamišljeno u kod. Ciklično ponašanje uglavnom se koristilo kod zaprimanja i obrade zahtjeva zbog potrebe da se takva radnja vrti u krug i da agenti mogu ponovno zaprimiti novi zahtjev. 
 
 \chapter{Popis literature}
 
